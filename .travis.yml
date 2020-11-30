@@ -1,11 +1,13 @@
+dist: xenial
+
 language: python
 
 python:
-  - "3.7"   # we built a noarch (so in principle any recent version of python work)
+  - "3.8"
 
-# limit git clone depth to 10 commits
+# limit git clone depth to 30 commits
 git:
-  depth: 10
+  depth: 30
 
 install:
   - sudo apt-get update
@@ -20,12 +22,12 @@ install:
   - conda config --set channel_priority strict
 
 script:
-  - conda create -n py37 python=3.7 pytest numpy scipy
-  - conda activate py37
+  - conda create -n py38 python=3.8 pytest numpy scipy
+  - conda activate py38
   - pip install .
   - pytest --pyargs nmrglue
 
 after_success:
-  - conda activate py37
+  - conda activate py38
   - conda install conda-build anaconda-client
   - bash recipe/conda_upload.sh
