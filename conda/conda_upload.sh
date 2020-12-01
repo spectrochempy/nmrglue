@@ -76,7 +76,7 @@ if [[ "$TRAVIS_BRANCH" == "master" ]]; then
   fi;
 elif [[ "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ]]; then
   ## This is a "main" release
-  if [[ -z $DEVSTRING ]]; then
+  if [[ "$DEVSTRING" == "py_0" ]]; then
     anaconda -t "$CONDA_UPLOAD_TOKEN" upload --force -u "$ANACONDA_USER" "$PKG_FILE";
   fi;
 fi
