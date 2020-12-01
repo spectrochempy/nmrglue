@@ -1,5 +1,6 @@
 {% set name = "nmrglue" %}
 {% set version = environ['VERSION'] %}
+{% set devstring = environ['DEVSTRING'] %}
 
 package:
   name: "{{ name|lower }}"
@@ -11,31 +12,29 @@ source:
 build:
   script_env:
     - VERSION
+    - DEVSTRING
     - CONDA_BLD_PATH
-  string: {{ environ['DEVSTRING'] }}
+  string: "{{ devstring }}"
   noarch: python
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script:
+    - {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
 
 requirements:
   build:
     - python
   host:
-    - python
-    - numpy
+    - python >=3.7
     - pip
-    - scipy
   run:
-    - python
     - numpy
     - scipy
   test:
     - python             {{ python }}
-    - pytest
-    - nose
 
 test:
   script_env:
     - VERSION
+    - DEVSTRING
     - CONDA_BLD_PATH
   imports:
     - nmrglue

@@ -5,9 +5,9 @@ language: python
 python:
   - "3.8"
 
-# limit git clone depth to 30 commits
+# limit git clone depth to 50 commits
 git:
-  depth: 30
+  depth: 50
 
 install:
   - sudo apt-get update
@@ -15,11 +15,11 @@ install:
   - bash miniconda.sh -b -p $HOME/miniconda
   - source "$HOME/miniconda/etc/profile.d/conda.sh"
   - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  - conda config --add channels conda-forge
-  - conda config --add channels spectrocat
-  - conda config --set channel_priority strict
+  - conda config -q --set always_yes yes --set changeps1 no
+  - conda update -q -n base conda
+  - conda config -q --add channels conda-forge
+  - conda config -q --add channels spectrocat
+  - conda config -q --set channel_priority flexible
 
 script:
   - conda create -n py38 python=3.8 pytest numpy scipy
@@ -30,4 +30,4 @@ script:
 after_success:
   - conda activate py38
   - conda install conda-build anaconda-client
-  - bash recipe/conda_upload.sh
+  - bash conda/conda_upload.sh
