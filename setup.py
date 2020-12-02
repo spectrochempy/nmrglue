@@ -14,7 +14,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='nmrglue',
-    version='0.8.2-dev',  # change this in nmrglue/__init__.py also
+    use_scm_version=True,
     description='A module for working with NMR data in Python',
     long_description=long_description,
     url='http://www.nmrglue.com',
@@ -34,6 +34,7 @@ setup(
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX :: Linux'],
+    setup_requires=['setuptools_scm'],
     install_requires=['numpy', 'scipy'],
     extras_require={
         "docs": ["sphinx", "sphinx_rtd_theme", "numpydoc"]

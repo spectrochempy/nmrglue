@@ -9,28 +9,22 @@ PKG_NAME=nmrglue
 ANACONDA_USER=spectrocat
 OS=noarch
 
-## TAG
-TAG=$(git describe --tags)
-echo "Current version string = $TAG"
+## get version string from setuptools_scm
+PVS="$(python setup.py --version)"
+echo "Current version string = $PVS"
 
 ## Extract components
-IFS=$"-"
-read -ra arr <<< "$TAG"
+IFS=$"+"
+read -ra arr <<< "$PVS"
 
 ## latest version string
 LATEST="${arr[0]}"
 IFS=$"."
 read -ra tag <<< "$LATEST";
-NEXT_TAG="${tag[0]}.${tag[1]}.`expr ${tag[2]} + 1`"
-
-if [[ $LATEST != $TAG ]]; then
-  DEVSTRING="dev"
-  VERSION=$NEXT_TAG
-  PKG_NAME_VERSION="$PKG_NAME-$VERSION-$DEVSTRING.tar.bz2"
-else
+DEVSTRING="${tag[3]}"
+VERSION="${tag[0]}.${tag[1]}.${tag[2]}"
+if [[ -z $DEVSTRING ]]; then
   DEVSTRING="stable"
-  VERSION=$LATEST
-  PKG_NAME_VERSION="$PKG_NAME-$VERSION-$DEVSTRING.tar.bz2"
 fi
 
 export VERSION=$VERSION
