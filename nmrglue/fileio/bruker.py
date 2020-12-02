@@ -1223,9 +1223,10 @@ def read_pdata(dir=".", bin_files=None, procs_files=None, read_procs=True,
         else:
             raise IOError("No Bruker binary file could be found in %s" % (dir))
 
-    for f in bin_files.copy():
+    for f in bin_files[1:]:
         if not os.path.isfile(os.path.join(dir, f)):
-            bin_files.remove(f)
+            bin_files = [bin_files[0]]
+            break
 
     if read_procs:
         # read the procs_files and add to the dictionary

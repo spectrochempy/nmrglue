@@ -28,7 +28,7 @@ if [[ $LATEST != $TAG ]]; then
   VERSION=$NEXT_TAG
   PKG_NAME_VERSION="$PKG_NAME-$VERSION-$DEVSTRING.tar.bz2"
 else
-  DEVSTRING="py_0"
+  DEVSTRING="stable"
   VERSION=$LATEST
   PKG_NAME_VERSION="$PKG_NAME-$VERSION-$DEVSTRING.tar.bz2"
 fi
@@ -66,17 +66,9 @@ if [[ $USER != "travis" ]]; then
   ## else this run by TravisCI (this are env variables)
 fi
 
-echo "branch: $TRAVIS_BRANCH tag: $TRAVIS_TAG"
-
-if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-  ## We build the current master release (i.e. the latest development version)
-  ## This is a "dev" release
-  if [[ "$DEVSTRING" == "dev" ]]; then
-    anaconda -t "$CONDA_UPLOAD_TOKEN" upload --force -u "$ANACONDA_USER" -l dev "$PKG_FILE";
-  fi;
-elif [[ "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ]]; then
+if [[ "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ]]; then
   ## This is a "main" release
-  if [[ "$DEVSTRING" == "py_0" ]]; then
+  if [[ "$DEVSTRING" == "stable" ]]; then
     anaconda -t "$CONDA_UPLOAD_TOKEN" upload --force -u "$ANACONDA_USER" "$PKG_FILE";
   fi;
 fi
