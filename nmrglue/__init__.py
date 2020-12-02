@@ -3,4 +3,11 @@ from .process import *
 from .util import *
 from .analysis import *
 
-__version__ = '0.8.2-dev'
+from pkg_resources import get_distribution, DistributionNotFound
+
+try:
+    __version__ = get_distribution("nmrglue").version
+except DistributionNotFound:
+    # package is not installed
+    pass
+
